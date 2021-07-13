@@ -11,7 +11,7 @@ def index(request):
     if request.method == "GET":
         return render(request, "upload.html")
     else:
-        file = request.FILES["fileToUpload"].read().decode('UTF-8',errors='replace')
+        file = request.FILES["fileToUpload"].read().decode('UTF-8', errors='replace')
         # file.save()
         # csvFile = csv.DictReader(file)
         # file = bytes(request.FILES["fileToUpload"])
@@ -19,17 +19,17 @@ def index(request):
         flag = 0
         lines = file.split("\r\n")
         for line in lines:
-            if flag ==0 or len(line)==0:
-                flag=1
+            if flag == 0 or len(line) == 0:
+                flag = 1
                 continue
             print(line)
             feilds = line.split(',')
-            id=feilds[0]
+            id = feilds[0]
             roll = feilds[1]
             cls = feilds[2]
             fname = feilds[3]
             lname = feilds[4]
-            student = Students(id=id,rollnumber=roll, class_field=cls, fname=fname, lname=lname)
+            student = Students(id=id, rollnumber=roll, class_field=cls, fname=fname, lname=lname)
             student.save()
         return redirect('/show')
 
@@ -38,7 +38,18 @@ def index(request):
 
 def show(request):
     students = Students.objects.all()
-    return render(request, "upload.html", {'student': students})
+    # students = {
+    #     "name": Students.objects.all()
+    # }
+    names = []
+    for student in students:
+        name = student.fname + ' ' + student.lname
+        names.append(name)
+    final = zip(students, names)
+    # for i,j in final:
+    #     print(i,j)
+    return render(request, "upload.html", {'final': final})
+
 
 def apiCall(request):
     req = requests.get('https://datausa.io/api/data?drilldowns=Nation&measures=Population')
@@ -48,10 +59,11 @@ def apiCall(request):
     for data in json['data']:
         year = data["Year"]
         Country = data["Nation"]
-        popu= data["Population"]
-        val = PopulationCount(year=year,country=Country,population=popu)
+        popu = data["Population"]
+        val = PopulationCount(year=year, country=Country, population=popu)
         val.save()
     return redirect('/showAPI')
+
 
 def showAPIVal(request):
     population = PopulationCount.objects.all()

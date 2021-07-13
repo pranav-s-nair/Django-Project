@@ -22,16 +22,18 @@
         <th>Class</th>
         <th>First Name</th>
         <th>Last Name</th>
+          <th>Name</th>
       </tr>
     </thead>
     <tbody>
-    {% for stud in student %}
+    {% for stud,name in final %}
       <tr>
         <td>{{stud.id}}</td>
-        <td>{{stud.roll}}</td>
-        <td>{{stud.sclass}}</td>
+        <td>{{stud.rollnumber}}</td>
+        <td>{{stud.Class}}</td>
         <td>{{stud.fname}}</td>
         <td>{{stud.lname}}</td>
+          <td>{{name}}</td>
       </tr>
       {% endfor %}
     </tbody>

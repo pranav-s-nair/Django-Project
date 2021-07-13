@@ -20,7 +20,8 @@ from AppToAddDetailsInDB import views
 urlpatterns = [
     path('', include('AppToAddDetailsInDB.urls')),
     path('admin/', admin.site.urls),
-    path('show', views.show),
-    path('showAPI', views.showAPIVal),
-    path('showSomething', views.apiCall),
+    # path('show', views.show),
+    # path('showAPI', views.showAPIVal),
+    # path('showSomething', views.apiCall),
+    # path('fileUpload', views.index),
 ]
